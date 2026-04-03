@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bist du bereit für finanzielle Freiheit?</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #21262d;
+    --gold: #f0b429;
+    --gold2: #ffd166;
+    --green: #3ecf8e;
+    --muted: #8b949e;
+    --text: #f0f6fc;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 20%, rgba(240,180,41,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 80% 80%, rgba(62,207,142,0.05) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 520px;
+  }
+
+  /* TOP BRAND */
+  .brand {
+    text-align: center;
+    margin-bottom: 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .brand span { color: var(--gold); }
+
+  /* PROGRESS */
+  .progress-wrap {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 28px;
+  }
+
+  .prog-dot {
+    flex: 1;
+    height: 3px;
+    border-radius: 99px;
+    background: var(--border);
+    transition: background 0.4s ease;
+  }
+
+  .prog-dot.done { background: var(--gold); }
+  .prog-dot.active { background: var(--gold2); }
+
+  /* CARD */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 40px 36px;
+    position: relative;
+    overflow: hidden;
+    animation: slideIn 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--gold2), var(--green));
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(24px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .step-num {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .emoji-big {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 20px;
+    line-height: 1;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 4vw, 1.9rem);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 14px;
+    color: var(--text);
+  }
+
+  .subtext {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+
+  /* ANSWER BUTTONS */
+  .answers {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ans-btn {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 18px 22px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .ans-btn:hover {
+    border-color: var(--gold);
+    background: rgba(240,180,41,0.06);
+    transform: translateX(4px);
+  }
+
+  .ans-btn .ans-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+
+  .ans-btn.yes {
+    border-color: var(--green);
+    background: rgba(62,207,142,0.08);
+  }
+
+  .ans-btn.maybe {
+    border-color: var(--gold);
+    background: rgba(240,180,41,0.07);
+  }
+
+  /* RESULT SCREEN */
+  .result-hero {
+    text-align: center;
+    padding: 8px 0 24px;
+  }
+
+  .result-trophy {
+    font-size: 5rem;
+    display: block;
+    margin-bottom: 16px;
+    animation: bounce 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @keyframes bounce {
+    0%   { transform: scale(0.3); opacity: 0; }
+    60%  { transform: scale(1.15); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .result-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    color: #000;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border-radius: 99px;
+    margin-bottom: 20px;
+  }
+
+  .result-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 30%, var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .result-text {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.75;
+    margin-bottom: 28px;
+  }
+
+  /* STRENGTHS LIST */
+  .strengths {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 28px;
+    text-align: left;
+  }
+
+  .strengths-title {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  .strength-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  .strength-row:last-child { margin-bottom: 0; }
+  .strength-row .chk { color: var(--green); font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+  /* CTA BOX */
+  .cta-box {
+    background: linear-gradient(135deg, rgba(240,180,41,0.12), rgba(62,207,142,0.08));
+    border: 1px solid rgba(240,180,41,0.3);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .cta-box p {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 18px;
+  }
+
+  .cta-box strong { color: var(--gold); }
+
+  .btn-cta {
+    display: block;
+    width: 100%;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    border: none;
+    border-radius: 12px;
+    color: #000;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 18px 24px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    text-align: center;
+  }
+
+  .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(240,180,41,0.3); }
+
+  .btn-restart {
+    display: block;
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    padding: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 10px;
+  }
+
+  .btn-restart:hover { border-color: var(--muted); color: var(--text); }
+
+  /* SHARE HINT */
+  .share-hint {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 20px;
+    opacity: 0.7;
+  }
+
+  /* SCORE METER */
+  .score-meter {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .score-bar-wrap {
+    flex: 1;
+    background: var(--border);
+    border-radius: 99px;
+    height: 8px;
+    overflow: hidden;
+  }
+
+  .score-bar-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--gold), var(--green));
+    transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    width: 0%;
+  }
+
+  .score-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="brand">@dein.freiheitskonzept · <span>Quiz</span></div>
+
+  <div class="progress-wrap" id="progressWrap"></div>
+
+  <div id="quizArea"></div>
+
+</div>
+
+<script>
+// ── QUIZ DATA ─────────────────────────────────────────────
+const questions = [
+  {
+    emoji: '📱',
+    question: 'Hast du ein Smartphone und nutzt du Social Media regelmäßig?',
+    sub: 'Kein Profi-Equipment nötig – das reicht vollkommen aus.',
+    answers: [
+      { text: 'Ja, ich bin täglich auf Instagram, TikTok oder ähnlichem', icon: '✅', score: 2, type: 'yes' },
+      { text: 'Ja, aber eher passiv – ich schaue mehr als ich poste', icon: '👀', score: 1, type: 'maybe' },
+      { text: 'Ich fange gerade erst an', icon: '🚀', score: 1, type: 'maybe' },
+    ]
+  },
+  {
+    emoji: '🎯',
+    question: 'Könntest du dir vorstellen, 30–90 Tage lang regelmäßig Inhalte zu teilen?',
+    sub: 'Wer konsequent dranbleibt, sieht die größten Ergebnisse. Kein Talent – nur Ausdauer.',
+    answers: [
+      { text: 'Ja, wenn ich weiß, was ich posten soll – auf jeden Fall', icon: '💪', score: 2, type: 'yes' },
+      { text: 'Ich bin bereit es zu versuchen', icon: '🤔', score: 1, type: 'maybe' },
+      { text: 'Das klingt machbar mit der richtigen Unterstützung', icon: '🙌', score: 1, type: 'maybe' },
+    ]
+  },
+  {
+    emoji: '💸',
+    question: 'Wärst du motiviert, wenn du weißt, dass dein Content andere Menschen weiterbringt UND dir dabei passives Einkommen bringt?',
+    sub: 'Affiliate Marketing bedeutet: Du hilfst anderen – und wirst dafür bezahlt.',
+    answers: [
+      { text: 'Ja! Das klingt genau nach dem, was ich suche', icon: '🔥', score: 2, type: 'yes' },
+      { text: 'Passives Einkommen interessiert mich sehr', icon: '💡', score: 2, type: 'yes' },
+      { text: 'Ich bin neugierig, wie das genau funktioniert', icon: '🧐', score: 1, type: 'maybe' },
+    ]
+  },
+  {
+    emoji: '⏰',
+    question: 'Kannst du 1–2 Stunden pro Tag oder ein paar Stunden pro Woche investieren?',
+    sub: 'Du brauchst keine 8-Stunden-Tage. Konsistenz schlägt Intensität.',
+    answers: [
+      { text: 'Ja, 1–2 Stunden täglich sind absolut machbar', icon: '✅', score: 2, type: 'yes' },
+      { text: 'Ein paar Stunden pro Woche – das kriege ich hin', icon: '📅', score: 1, type: 'maybe' },
+      { text: 'Ich möchte effizient starten und Zeit klug nutzen', icon: '⚡', score: 2, type: 'yes' },
+    ]
+  },
+  {
+    emoji: '🌍',
+    question: 'Möchtest du langfristig unabhängiger werden – zeitlich, örtlich und finanziell?',
+    sub: 'Das ist die eigentliche Frage. Der Rest ist nur der Weg dorthin.',
+    answers: [
+      { text: 'Ja – genau das ist mein Ziel', icon: '🏆', score: 2, type: 'yes' },
+      { text: 'Ich möchte zumindest ein zusätzliches Einkommen aufbauen', icon: '💰', score: 2, type: 'yes' },
+      { text: 'Ich bin offen – möchte aber erstmal mehr verstehen', icon: '🔍', score: 1, type: 'maybe' },
+    ]
+  },
+];
+
+// ── STATE ─────────────────────────────────────────────────
+let current = 0;
+let totalScore = 0;
+const maxScore = 10; // 5 questions × 2 pts max
+
+// ── INIT ──────────────────────────────────────────────────
+renderProgress();
+renderQuestion();
+
+function renderProgress() {
+  const wrap = document.getElementById('progressWrap');
+  wrap.innerHTML = '';
+  questions.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'prog-dot' + (i < current ? ' done' : i === current ? ' active' : '');
+    wrap.appendChild(dot);
+  });
+}
+
+function renderQuestion() {
+  renderProgress();
+  const q = questions[current];
+  const area = document.getElementById('quizArea');
+
+  area.innerHTML = `
+    <div class="card">
+      <div class="step-num">Frage ${current + 1} von ${questions.length}</div>
+      <span class="emoji-big">${q.emoji}</span>
+      <h2>${q.question}</h2>
+      <p class="subtext">${q.sub}</p>
+      <div class="answers" id="answerBtns">
+        ${q.answers.map((a, i) => `
+          <button class="ans-btn ${a.type}" onclick="selectAnswer(${i})">
+            <span class="ans-icon">${a.icon}</span>
+            <span>${a.text}</span>
+          </button>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function selectAnswer(idx) {
+  const q = questions[current];
+  const chosen = q.answers[idx];
+  totalScore += chosen.score;
+
+  // Disable all buttons briefly
+  document.querySelectorAll('.ans-btn').forEach(b => b.style.pointerEvents = 'none');
+
+  setTimeout(() => {
+    current++;
+    if (current >= questions.length) {
+      showResult();
+    } else {
+      renderQuestion();
+    }
+  }, 280);
+}
+
+function showResult() {
+  renderProgress();
+
+  const pct = totalScore / maxScore;
+  let tier, title, text, strengths;
+
+  if (pct >= 0.8) {
+    tier = '🏆 BEREIT FÜR DEN NÄCHSTEN SCHRITT';
+    title = 'Du hast das Zeug dazu.';
+    text = 'Deine Antworten zeigen: Du hast die Motivation, die Bereitschaft und die Grundlagen, um mit Affiliate Marketing durchzustarten. Was dir jetzt fehlt, ist ein klarer Plan – damit du keine Zeit mit Trial & Error verschwendest.';
+    strengths = [
+      'Du bist aktiv auf Social Media – das ist dein Kanal',
+      'Du kannst dir Konsequenz vorstellen – der wichtigste Faktor',
+      'Du willst mehr als nur ein 9-to-5 – das ist der richtige Antrieb',
+      'Du bist bereit, Zeit zu investieren – genau das braucht es',
+    ];
+  } else if (pct >= 0.5) {
+    tier = '⚡ FAST AM ZIEL';
+    title = 'Du bist auf dem richtigen Weg.';
+    text = 'Du hast die Grundvoraussetzungen – und vielleicht noch ein paar offene Fragen. Das ist völlig normal. Die meisten erfolgreichen Affiliate Marketer haben genauso angefangen: neugierig, aber noch ohne festen Plan.';
+    strengths = [
+      'Deine Offenheit ist eine Stärke, kein Hindernis',
+      'Du willst verstehen, bevor du handelst – das ist smart',
+      'Ein strukturierter Einstieg kann alle offenen Fragen klären',
+      'Der Unterschied zwischen "vielleicht" und "ja" ist oft nur Wissen',
+    ];
+  } else {
+    tier = '🌱 DU STARTEST GERADE';
+    title = 'Jeder Profi hat mal bei null angefangen.';
+    text = 'Noch keine Erfahrung? Kein Problem. Affiliate Marketing ist erlernbar – vorausgesetzt, du hast die richtige Anleitung. Du musst nicht alles selbst herausfinden.';
+    strengths = [
+      'Du hast den ersten Schritt gemacht: Du bist neugierig',
+      'Ohne Vorwissen einzusteigen ist oft ein Vorteil – keine falschen Gewohnheiten',
+      'Mit einem Workshop sparst du Monate an Lernkurve',
+      'Der beste Zeitpunkt anzufangen ist jetzt',
+    ];
+  }
+
+  const scoreDisplay = Math.round(pct * 100);
+
+  const area = document.getElementById('quizArea');
+  area.innerHTML = `
+    <div class="card">
+      <div class="result-hero">
+        <span class="result-trophy">🏆</span>
+        <div class="result-badge">${tier}</div>
+        <h2 class="result-title">${title}</h2>
+        <p class="result-text">${text}</p>
+      </div>
+
+      <div class="score-meter">
+        <div class="score-bar-wrap">
+          <div class="score-bar-fill" id="scoreBar"></div>
+        </div>
+        <div class="score-label">${scoreDisplay}% Übereinstimmung</div>
+      </div>
+
+      <div class="strengths">
+        <div class="strengths-title">Was du bereits mitbringst</div>
+        ${strengths.map(s => `
+          <div class="strength-row">
+            <span class="chk">✓</span>
+            <span>${s}</span>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="cta-box">
+        <p>
+          Viele Menschen verlieren Monate damit, sich alles selbst beizubringen.<br>
+          <strong>Der Workshop bei SphereOfLife.de zeigt dir den direkten Weg</strong> –
+          von der ersten Idee bis zu deinen ersten Einnahmen.
+        </p>
+        <a class="btn-cta" href="https://sphereoflife.de" target="_blank">
+          🚀 Jetzt Workshop entdecken →
+        </a>
+      </div>
+
+      <button class="btn-restart" onclick="restartQuiz()">
+        ↩ Quiz nochmal starten
+      </button>
+    </div>
+  `;
+
+  // Animate score bar
+  setTimeout(() => {
+    document.getElementById('scoreBar').style.width = scoreDisplay + '%';
+  }, 100);
+}
+
+function restartQuiz() {
+  current = 0;
+  totalScore = 0;
+  renderProgress();
+  renderQuestion();
+}
+</script>
+</body>
+</html>
